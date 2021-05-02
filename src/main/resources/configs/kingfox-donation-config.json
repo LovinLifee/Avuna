@@ -1,0 +1,7 @@
+{
+  "dbHost": "examplehost.com",
+  "dbPort": 3306,
+  "dbUsername": "admin",
+  "dbPassword": "password",
+  "database": "example_database"
+}

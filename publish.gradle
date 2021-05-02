@@ -1,0 +1,34 @@
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'Avuna'
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = 'Avuna'
+                description = 'Multi-purpose server-agnostic RSPS API'
+                url = 'http://www.example.com/library'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'hayden'
+                        name = 'Hayden Taylor'
+                        email = 'hayden@avuna.net'
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+  "delayInTicks": 1500,
+  "eventStartMessage": "Trivia has started! [QUESTION]",
+  "eventNotStartedMessage": "There is no trivia currently",
+  "wrongAnswerMessage": "WRONG!",
+  "questions":[
+    {
+      "question": "What is the creator of Avuna's first name?",
+      "answers": ["hayden"]
+    },
+    {
+      "question": "What is this API called?",
+      "answers": ["avuna"]
+    }
+  ]
+}

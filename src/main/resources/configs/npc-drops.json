@@ -1,0 +1,26 @@
+{
+  "npcs": {
+    "1": {
+      "amountOfRolls": 1,
+      "drops": [
+        {
+          "itemId": 995,
+          "minAmount": 500,
+          "maxAmount": 500,
+          "rarity": 0.1
+        }
+      ]
+    },
+    "2": {
+      "amountOfRolls": 1,
+      "drops": [
+        {
+          "itemId": 5,
+          "minAmount": 1,
+          "maxAmount": 1,
+          "rarity": 1.0
+        }
+      ]
+    }
+  }
+}

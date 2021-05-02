@@ -1,0 +1,6 @@
+{
+  "domain": "https://domain.com",
+  "consumerKey": "enter your consumer key here",
+  "consumerSecret": "enter your consumer secret here",
+  "autoClaim": false
+}

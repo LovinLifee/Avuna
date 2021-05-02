@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'io.freefair.lombok' version '6.0.0-m2'
+    id 'maven-publish'
+    id 'signing'
+}
+
+group 'net.avuna'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 14
+targetCompatibility = 14
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://jitpack.io'
+    }
+    jcenter()
+}
+
+dependencies {
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    implementation 'mysql:mysql-connector-java:8.0.16'
+    implementation 'commons-cli:commons-cli:1.4'
+    implementation 'com.google.guava:guava:28.0-jre'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.github.Huskehhh:MySQL:a583db3a35'
+    implementation 'org.xerial:sqlite-jdbc:3.31.1'
+    implementation 'com.github.jhg023:SimpleNet:1.6.6'
+    implementation 'io.sentry:sentry:4.3.0'
+}
+
+test {
+    exclude 'net/avuna/tests/**'
+}
+
+task copyLibs(type: Copy) {
+    group = 'build'
+    into "$buildDir/libs/"
+    from configurations.runtimeClasspath.findAll({it.name.endsWith('jar')})
+}
+
+jar {
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+apply from: 'publish.gradle'
