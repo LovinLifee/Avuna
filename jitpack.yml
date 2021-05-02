@@ -1,3 +1,8 @@
+jdk:
+  - openjdk14
 before_install:
-  - sdk install java 14.0.2-adpt
-  - sdk use java 14.0.2-adpt
+  - ./ensure-java-14.sh install
+install:
+  - if ! ./ensure-java-14 use; then source ~/.sdkman/bin/sdkman-init.sh; fi
+  - java -version
+  - ./mvnw -pl gwt,default install
