@@ -2,9 +2,8 @@ package net.avuna.game.entity.player;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.avuna.game.entity.player.IPlayer;
 import net.avuna.misc.Elo;
-import net.avuna.security.PlayerPermissions;
+import net.avuna.tasks.security.PlayerPermissions;
 
 @Getter
 @Setter

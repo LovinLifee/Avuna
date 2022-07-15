@@ -1,8 +1,9 @@
 package net.avuna.discord.webhook;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.experimental.Accessors;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.util.concurrent.CompletableFuture;
 public class DiscordWebhook {
 
 	private static final HttpClient httpClient = HttpClient.newHttpClient();
-	private static final Gson gson = new GsonBuilder().create();
+	private static final ObjectMapper mapper = new ObjectMapper();
 
 	private final String url;
 	private String content;
@@ -76,59 +77,63 @@ public class DiscordWebhook {
 		if (this.content == null && this.embeds.isEmpty()) {
 			throw new IllegalArgumentException("Set content or add at least one Embed");
 		}
-		JsonObject json = new JsonObject();
-		json.addProperty("content", this.content);
-		json.addProperty("username", this.username);
-		json.addProperty("avatar_url", this.avatarUrl);
-		json.addProperty("tts", this.tts);
+		ObjectNode json = mapper.createObjectNode();
+		json.put("content", this.content);
+		json.put("username", this.username);
+		json.put("avatar_url", this.avatarUrl);
+		json.put("tts", this.tts);
 		if (!this.embeds.isEmpty()) {
-			List<JsonObject> embeds = new ArrayList<>();
+			List<ObjectNode> embeds = new ArrayList<>();
 			for (Embed embed : this.embeds) {
-				JsonObject jsonEmbed = new JsonObject();
-				jsonEmbed.addProperty("title", embed.getTitle());
-				jsonEmbed.addProperty("description", embed.getDescription());
-				jsonEmbed.addProperty("url", embed.getUrl());
-				jsonEmbed.addProperty("color", embed.getColor());
+				ObjectNode jsonEmbed = mapper.createObjectNode();
+				jsonEmbed.put("title", embed.getTitle());
+				jsonEmbed.put("description", embed.getDescription());
+				jsonEmbed.put("url", embed.getUrl());
+				jsonEmbed.put("color", embed.getColor());
 				Embed.Footer footer = embed.getFooter();
 				Embed.Image image = embed.getImage();
 				Embed.Thumbnail thumbnail = embed.getThumbnail();
 				Embed.Author author = embed.getAuthor();
 				List<Embed.Field> fields = embed.getFields();
 				if (footer != null) {
-					JsonObject jsonFooter = new JsonObject();
-					jsonFooter.addProperty("text", footer.getText());
-					jsonFooter.addProperty("icon_url", footer.getIconUrl());
-					jsonEmbed.add("footer", jsonFooter);
+					ObjectNode jsonFooter = mapper.createObjectNode();
+					jsonFooter.put("text", footer.getText());
+					jsonFooter.put("icon_url", footer.getIconUrl());
+					jsonEmbed.set("footer", jsonFooter);
 				}
 				if (image != null) {
-					JsonObject jsonImage = new JsonObject();
-					jsonImage.addProperty("url", image.getUrl());
-					jsonEmbed.add("image", jsonImage);
+					ObjectNode jsonImage = mapper.createObjectNode();
+					jsonImage.put("url", image.getUrl());
+					jsonEmbed.set("image", jsonImage);
 				}
 				if (thumbnail != null) {
-					JsonObject jsonThumbnail = new JsonObject();
-					jsonThumbnail.addProperty("url", thumbnail.getUrl());
-					jsonEmbed.add("thumbnail", jsonThumbnail);
+					ObjectNode jsonThumbnail = mapper.createObjectNode();
+					jsonThumbnail.put("url", thumbnail.getUrl());
+					jsonEmbed.set("thumbnail", jsonThumbnail);
 				}
 				if (author != null) {
-					JsonObject jsonAuthor = new JsonObject();
-					jsonAuthor.addProperty("name", author.getName());
-					jsonAuthor.addProperty("url", author.getUrl());
-					jsonAuthor.addProperty("icon_url", author.getIconUrl());
-					jsonEmbed.add("author", jsonAuthor);
+					ObjectNode jsonAuthor = mapper.createObjectNode();
+					jsonAuthor.put("name", author.getName());
+					jsonAuthor.put("url", author.getUrl());
+					jsonAuthor.put("icon_url", author.getIconUrl());
+					jsonEmbed.set("author", jsonAuthor);
 				}
-				List<JsonObject> jsonFields = new ArrayList<>();
+				List<JsonNode> jsonFields = new ArrayList<>();
 				for (Embed.Field field : fields) {
-					JsonObject jsonField = new JsonObject();
-					jsonField.addProperty("name", field.getName());
-					jsonField.addProperty("value", field.getValue());
-					jsonField.addProperty("inline", field.isInline());
+					ObjectNode jsonField = mapper.createObjectNode();
+					jsonField.put("name", field.getName());
+					jsonField.put("value", field.getValue());
+					jsonField.put("inline", field.isInline());
 					jsonFields.add(jsonField);
 				}
-				jsonEmbed.add("fields", gson.toJsonTree(jsonFields.toArray()));
+				ArrayNode f = mapper.createArrayNode();
+				f.addAll(jsonFields);
+				jsonEmbed.set("fields", f);
 				embeds.add(jsonEmbed);
 			}
-			json.add("embeds", gson.toJsonTree(embeds.toArray()));
+			ArrayNode a = mapper.createArrayNode();
+			a.addAll(embeds);
+			json.set("embeds", a);
 		}
 		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url))
 				.header("Content-Type", "application/json")

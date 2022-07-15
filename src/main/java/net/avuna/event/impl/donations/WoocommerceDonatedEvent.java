@@ -3,10 +3,7 @@ package net.avuna.event.impl.donations;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.avuna.event.AbstractEvent;
-import net.avuna.net.donation.woocommerce.beans.UnclaimedOrder;
-import net.avuna.net.donation.woocommerce.beans.WoocommerceData;
-
-import java.util.List;
+import net.avuna.event.net.donation.woocommerce.beans.WoocommerceData;
 
 @Getter
 @RequiredArgsConstructor

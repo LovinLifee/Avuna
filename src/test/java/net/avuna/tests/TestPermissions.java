@@ -1,6 +1,6 @@
 package net.avuna.tests;
 
-import net.avuna.security.PlayerPermissions;
+import net.avuna.tasks.security.PlayerPermissions;
 
 public class TestPermissions {
 

@@ -4,7 +4,7 @@ import net.avuna.Avuna;
 import net.avuna.commands.AbstractCommand;
 import net.avuna.commands.arguments.ArgumentParser;
 import net.avuna.game.entity.player.IPlayer;
-import net.avuna.security.PlayerPermissions;
+import net.avuna.tasks.security.PlayerPermissions;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

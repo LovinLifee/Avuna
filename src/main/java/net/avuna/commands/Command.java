@@ -1,5 +1,7 @@
 package net.avuna.commands;
 
+import net.avuna.tasks.security.PlayerPermissions;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -33,5 +35,5 @@ public @interface Command {
 	/**
 	 * @return the player rights needed to execute this command
 	 */
-	public long permissions() default 1;
+	public long permissions() default PlayerPermissions.GLOBAL;
 }

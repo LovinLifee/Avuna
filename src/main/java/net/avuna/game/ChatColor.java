@@ -8,8 +8,8 @@ public enum ChatColor {
     WHITE("", 0xFFFFFF),
     BLACK("", 0x000000);
 
-    String color;
-    String color2;
+    private final String color;
+    private final String color2;
 
     ChatColor(String color, int col2) {
         this.color = color;

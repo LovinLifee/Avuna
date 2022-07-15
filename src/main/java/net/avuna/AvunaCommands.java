@@ -3,8 +3,8 @@ package net.avuna;
 import net.avuna.commands.Command;
 import net.avuna.commands.arguments.ArgumentParser;
 import net.avuna.game.entity.player.IPlayer;
-import net.avuna.security.Confirmation;
-import net.avuna.security.PlayerPermissions;
+import net.avuna.tasks.security.Confirmation;
+import net.avuna.tasks.security.PlayerPermissions;
 
 import java.util.Optional;
 
@@ -13,7 +13,7 @@ import java.util.Optional;
  */
 public class AvunaCommands {
 
-    @Command(aliases = {"giverights"}, permissions = PlayerPermissions.DEVELOPER)
+    @Command(aliases = {"giverights"}, permissions = PlayerPermissions.DEVELOPER | PlayerPermissions.CONSOLE)
     public void giveRights(IPlayer player, String command, ArgumentParser args) {
         if (!args.ensureTypes(Integer.class, String.class)) {
             player.sendMessage("Please use as giverights (int)rights (string)\"player name\"");
@@ -34,6 +34,10 @@ public class AvunaCommands {
                     player.sendMessage(playerName + " is not online");
                 }
             }
+            @Override
+            public void onExpire() {
+                player.sendMessage("Your 10 seconds has run out.");
+            }
         });
     }
 
@@ -45,5 +49,19 @@ public class AvunaCommands {
     @Command(aliases = {"donated", "claimdonation","claimdonated"})
     public void claimDonation(IPlayer player, String command, ArgumentParser args) {
         Avuna.getDonationHandler().checkDonations(player.getUsername());
+    }
+
+    @Command(aliases = {"yell"})
+    public void yell(IPlayer player, String command, ArgumentParser args) {
+        if(args.toString().isEmpty()) {
+            player.sendMessage("Please use as ::yell <message>");
+            return;
+        }
+        Avuna.getPlayers().sendMessageToAll(args.toString());
+    }
+
+    @Command(aliases = {"ping"})
+    public void pingPong(IPlayer player, String command, ArgumentParser args) {
+        player.sendMessage("pong");
     }
 }

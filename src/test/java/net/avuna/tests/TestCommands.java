@@ -4,9 +4,9 @@ import net.avuna.Avuna;
 import net.avuna.commands.CommandNotFoundException;
 import net.avuna.commands.Command;
 import net.avuna.commands.arguments.ArgumentParser;
-import net.avuna.security.PlayerPermissions;
+import net.avuna.tasks.security.PlayerPermissions;
 import net.avuna.game.entity.player.IPlayer;
-import net.avuna.security.InsufficientPermissionsException;
+import net.avuna.tasks.security.InsufficientPermissionsException;
 
 import java.util.Arrays;
 import java.util.Scanner;

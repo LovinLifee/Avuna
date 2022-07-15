@@ -1,8 +1,8 @@
 package net.avuna.tests;
 
 import net.avuna.Avuna;
-import net.avuna.net.vote.PlayerVoteEvent;
-import net.avuna.net.vote.VoteData;
+import net.avuna.event.net.vote.PlayerVoteEvent;
+import net.avuna.event.net.vote.VoteData;
 
 import java.util.concurrent.ExecutionException;
 

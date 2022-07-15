@@ -1,52 +1,32 @@
 package net.avuna.game.items.drops;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
 import net.avuna.game.items.Chanceable;
 
-import java.util.Objects;
-
 @Getter
-@ToString
-@RequiredArgsConstructor
+@Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({"itemId", "minAmount", "maxAmount", "rarity"})
 public class Drop implements Chanceable {
 
-	private final int itemId;
-	private final int minAmount;
-	private final int maxAmount;
+	@JsonProperty("itemId")
+	public int itemId;
 
-	/**
-	 * @return a value between 0.0 and 1.0 inclusively, can be represented as a fraction between 2 floating point numbers
-	 * where the numerator is less than or equal to the denominator
-	 */
-	private final double chance;
+	@JsonProperty("minAmount")
+	public int minAmount;
 
-	public Drop(int itemId, int amount, double rarity) {
-		this(itemId, amount, amount, rarity);
-	}
+	@JsonProperty("maxAmount")
+	public int maxAmount;
 
-	public Drop(int itemId, int minAmount, int maxAmount) {
-		this(itemId, minAmount, maxAmount, 1D);
-	}
-
-	public Drop(int itemId, int amount) {
-		this(itemId, amount, amount, 1D);
-	}
+	@JsonProperty("rarity")
+	public double rarity;
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Drop drop = (Drop) o;
-		return getItemId() == drop.getItemId() &&
-				getMinAmount() == drop.getMinAmount() &&
-				getMaxAmount() == drop.getMaxAmount() &&
-				Double.compare(drop.getChance(), getChance()) == 0;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(getItemId(), getMinAmount(), getMaxAmount(), getChance());
+	public double getChance() {
+		return rarity;
 	}
 }

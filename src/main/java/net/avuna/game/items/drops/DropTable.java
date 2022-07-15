@@ -1,5 +1,6 @@
 package net.avuna.game.items.drops;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import net.avuna.game.items.Chanceable;
 
@@ -10,8 +11,10 @@ public class DropTable<T extends Chanceable> {
 	private static final Random random = new Random();
 
 	@Getter
+	@JsonProperty("amountOfRolls")
 	private int amountOfRolls = 1;
 
+	@JsonProperty("drops")
 	private Collection<T> drops = new ArrayList<>();
 
 	public void addDrop(T drop) {

@@ -2,8 +2,8 @@ package net.avuna.commands;
 
 import net.avuna.commands.arguments.ArgumentParser;
 import net.avuna.game.entity.player.IPlayer;
-import net.avuna.security.InsufficientPermissionsException;
-import net.avuna.security.PlayerPermissions;
+import net.avuna.tasks.security.InsufficientPermissionsException;
+import net.avuna.tasks.security.PlayerPermissions;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -37,9 +37,11 @@ public class CommandHandler {
 	public <T extends IPlayer> void execute(T sender, String commandName, String[] args) throws InsufficientPermissionsException, CommandNotFoundException {
 		AbstractCommand<T> command = (AbstractCommand<T>) commands.get(commandName);
 		if(command == null) {
+			sender.sendMessage("The command %s does not exist", commandName);
 			throw new CommandNotFoundException(commandName);
 		}
 		if(!sender.getPermissions().hasPermission(command.permissions())) {
+			sender.sendMessage("You do not have permission to use this command.");
 			throw new InsufficientPermissionsException(sender.getPermissions(), PlayerPermissions.of(command.permissions()));
 		}
 		ArgumentParser parser = new ArgumentParser(args);

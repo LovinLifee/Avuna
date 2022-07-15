@@ -1,7 +1,7 @@
 package net.avuna;
 
 import lombok.SneakyThrows;
-import net.avuna.security.PlayerPermissions;
+import net.avuna.tasks.security.PlayerPermissions;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,7 +57,7 @@ public class PlayerRightsManager implements ActionListener {
         JCheckBox checkBox = (JCheckBox) e.getSource();
         String fieldName = checkBox.getActionCommand().toUpperCase().replaceAll("\\s", "_");
         Field field = PlayerPermissions.class.getDeclaredField(fieldName);
-        int value = field.getInt(null);
+        long value = field.getLong(null);
         permissions += checkBox.isSelected() ? value : -value;
         outputLabel.setText(String.format("<html>Player permissions: <font color='green'>%d</font></html>", permissions));
     }
